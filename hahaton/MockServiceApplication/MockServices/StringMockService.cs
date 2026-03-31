@@ -2,16 +2,16 @@ using MockServiceApplication.FormatServices;
 
 namespace MockServiceApplication.MockServices;
 
-public class StringMockService :  IMockService<string>
+public class StringMockService :  IMockService
 {
-    private readonly Func<Format, IFormatService<string>> _formatResolver;
+    private readonly Func<Format?, IFormatService> _formatResolver;
 
-    public StringMockService(Func<Format, IFormatService<string>> formatResolver)
+    public StringMockService(Func<Format?, IFormatService> formatResolver)
     {
         _formatResolver = formatResolver;
     }
 
-    public string Generate(Format format)
+    public string? Generate(Format? format)
     {
         var formatService = _formatResolver(format);
         var formatted = formatService.Generate();

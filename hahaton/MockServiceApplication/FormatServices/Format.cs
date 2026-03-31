@@ -5,4 +5,5 @@ public enum Format
     Email,
     Phone,
     Name,
+    None
 }

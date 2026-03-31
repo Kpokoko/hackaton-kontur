@@ -2,7 +2,7 @@ using System.Text;
 
 namespace MockServiceApplication.FormatServices;
 
-public class DefaultFormatService : IFormatService<string>
+public class DefaultFormatService : IFormatService
 {
     public Random Random { get; }
     
@@ -11,7 +11,7 @@ public class DefaultFormatService : IFormatService<string>
         Random = random;
     }
     
-    public string Generate()
+    public string? Generate()
     {
         var result = new StringBuilder();
         const string chars = "abcdefghijklmnopqrstuvwxyZ0123456789";

@@ -2,7 +2,7 @@ using System.Text;
 
 namespace MockServiceApplication.FormatServices;
 
-public class EmailFormatService : IFormatService<string>
+public class EmailFormatService : IFormatService
 {
     public EmailFormatService(Random random)
     {
@@ -11,7 +11,7 @@ public class EmailFormatService : IFormatService<string>
 
     public Random Random { get; }
 
-    public string Generate()
+    public string? Generate()
     {
         const string chars = "abcdefghijklmnopqrstuvwxyZ0123456789";
         var domens = new[] { "@gmail.com", "@mail.ru", "@yandex.ru" };

@@ -1,7 +1,7 @@
-namespace MockServiceApplication;
+namespace MockServiceApplication.FormatServices;
 
-public interface IFormatService<T>
+public interface IFormatService
 {
     public Random Random { get; }
-    public T Generate();
+    public string? Generate();
 }

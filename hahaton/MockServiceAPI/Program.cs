@@ -8,12 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<Random>();
+builder.Services.AddTransient<MockService>();
+
 builder.Services.AddTransient<StringMockService>();
 
 builder.Services.AddTransient<EmailFormatService>();
 builder.Services.AddTransient<DefaultFormatService>();
 
-builder.Services.AddTransient<Func<Format, IFormatService<string>>>(serviceProvider => format =>
+builder.Services.AddTransient<Func<Format?, IFormatService>>(serviceProvider => format =>
 {
     return format switch
     {
@@ -22,6 +25,15 @@ builder.Services.AddTransient<Func<Format, IFormatService<string>>>(serviceProvi
     };
 });
 
+
+builder.Services.AddTransient<Func<string, IMockService?>>(serviceProvider => type =>
+{
+    return type switch
+    {
+        "string" => serviceProvider.GetRequiredService<StringMockService>(),
+        _ => null
+    };
+});
 
 var app = builder.Build();
 
