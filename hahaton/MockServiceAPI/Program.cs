@@ -1,5 +1,4 @@
 using hahaton.Endpoints;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using MockServiceApplication;
 using MockServiceApplication.FormatServices;
 using MockServiceApplication.MockServices;
@@ -10,13 +9,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<StringMockService>();
+
+builder.Services.AddTransient<EmailFormatService>();
+builder.Services.AddTransient<DefaultFormatService>();
+
 builder.Services.AddTransient<Func<Format, IFormatService<string>>>(serviceProvider => format =>
 {
     return format switch
     {
         Format.Email => serviceProvider.GetRequiredService<EmailFormatService>(),
-        default => 
-    }
+        _ => serviceProvider.GetRequiredService<DefaultFormatService>(),
+    };
 });
 
 
