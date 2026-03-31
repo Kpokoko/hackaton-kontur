@@ -11,7 +11,7 @@ public class StringMockService : IMockService
         _formatResolver = formatResolver;
     }
 
-    public string? Generate(Format? format, int? count, string? valueType)
+    public string? Generate(Format? format,  Format? formatKey, int? count, string? valueType, string? keyType)
     {
         var formatService = _formatResolver(format);
         var formatted = formatService.Generate();

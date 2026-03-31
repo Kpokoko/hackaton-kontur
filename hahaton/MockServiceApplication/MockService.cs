@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Text.Json;
 using MockServiceApplication.DTOs;
 using MockServiceApplication.MockServices;
 
@@ -47,12 +48,17 @@ public class MockService
             {
                 if (field.Type == "array")
                 {
-                    var array = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var array = mockService.Generate(field.Format, null, field.Count, field.valueType, null);
                     expando[field.Name] = array.Split(",");
+                } else if (field.Type == "dictionary")
+                {
+                    var dictionary = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
+
+                    expando[field.Name] = JsonSerializer.Deserialize<Dictionary<string, object>>(dictionary);
                 }
                 else
                 {
-                    expando[field.Name] = mockService.Generate(field.Format, field.Count, field.valueType);
+                    expando[field.Name] = mockService.Generate(field.Format, null, field.Count, field.valueType, null);
                 }
             }
         }
