@@ -37,6 +37,7 @@ builder.Services.AddTransient<EmailFormatService>();
 builder.Services.AddTransient<PhoneFormatService>();
 builder.Services.AddTransient<DefaultMockService>();
 builder.Services.AddTransient<DefaultFormatService>();
+builder.Services.AddTransient<DataTimeFormatService>();
 builder.Services.AddTransient<DoubleFormatService>();
 builder.Services.AddTransient<IntFormatService>();
 
