@@ -6,7 +6,7 @@ public class StringMockService : DefaultMockService
 {
     private readonly Func<Format?, IFormatService> _formatResolver;
 
-    public StringMockService(Func<Format?, IFormatService> formatResolver)
+    public StringMockService(Func<Format?, IFormatService> formatResolver) : base(formatResolver)
     {
         _formatResolver = formatResolver;
     }

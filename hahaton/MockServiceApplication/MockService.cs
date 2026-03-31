@@ -58,12 +58,12 @@ public class MockService
                 }
                 else if (field.Type == "double")
                 {
-                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var number = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
                     expando[field.Name] = double.Parse(number);
                 }
                 else if (field.Type == "int")
                 {
-                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var number = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
                     expando[field.Name] = int.Parse(number);
                 }
                 else
