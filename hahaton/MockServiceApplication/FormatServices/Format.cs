@@ -1,4 +1,4 @@
-namespace MockServiceApplication;
+namespace MockServiceApplication.FormatServices;
 
 public enum Format
 {
