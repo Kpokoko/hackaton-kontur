@@ -1,0 +1,33 @@
+{
+    "count" : "int",
+    "class name":
+    {
+        "name" : {
+            "type": "type",
+            "format": "email"
+        },
+        "name": {
+            "type": "array",
+            "valueType": "int",
+            "valueFormat": "email",
+            "count": "int"
+        },
+        "name": {
+            "type": "dictionary",
+            "keyType": "int",
+            "valueType": "int",
+            "count": "int",
+            "keyFormat": "email",
+            "valueFormat": "email"
+        },
+        "class Person":
+        {
+            "name": {
+                "type": "array",
+                "valueType": "int",
+                "valueFormat": "email",
+                "count": "int"
+            }
+        }
+    }
+}
