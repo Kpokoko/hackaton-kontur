@@ -50,6 +50,10 @@ public class MockService
                     var array = mockService.Generate(field.Format, field.Count, field.valueType);
                     expando[field.Name] = array.Split(",");
                 }
+                else
+                {
+                    expando[field.Name] = mockService.Generate(field.Format, field.Count, field.valueType);
+                }
             }
         }
     }
