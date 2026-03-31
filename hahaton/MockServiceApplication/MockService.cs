@@ -15,11 +15,15 @@ public class MockService
 
     public dynamic Generate(MockRequest mockRequest)
     {
-        var expando = new ExpandoObject() as IDictionary<string, object?>;
+        var res = new List<dynamic>();
+        for (var i = 0; i < mockRequest.Count; ++i)
+        {
+            var expando = new ExpandoObject() as IDictionary<string, object?>;
+            res.Add(expando);
+            FillObject(mockRequest.Structure, expando);
+        }
 
-        FillObject(mockRequest.Structure, expando);
-
-        return expando;
+        return res;
     }
 
     private void FillObject(Structure[] structure, IDictionary<string, object?> expando)
@@ -48,7 +52,12 @@ public class MockService
                 if (field.Type == "array")
                 {
                     var array = mockService.Generate(field.Format, field.Count, field.valueType);
-                    expando[field.Name] = array.Split(",");
+                    if (field.valueType == "int")
+                        expando[field.Name] = array.Split(",").Select(x => int.Parse(x)).ToArray();
+                    else if (field.valueType == "double")
+                        expando[field.Name] = array.Split(",").Select(x => double.Parse(x)).ToArray();
+                    else
+                        expando[field.Name] = array.Split(",");
                 }
                 else if (field.Type == "double")
                 {

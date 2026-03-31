@@ -21,7 +21,6 @@ public class ArrayMockService : IMockService
         var mockService = _formatResolver(valueType);
         for (var i = 0; i < count; ++i)
             arr[i] = mockService.Generate(format, count, valueType);
-        Console.WriteLine(arr);
         return string.Join(",", arr);
     }
 }
