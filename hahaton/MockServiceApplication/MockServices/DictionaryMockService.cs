@@ -21,8 +21,8 @@ public class DictionaryMockService : IMockService
 
         for (var i = 0; i < count; ++i)
         {
-            dic[mockService.Generate(formatKey, null, count, valueType, valueType)] =
-                mockService.Generate(format, null, count, keyType, keyType);
+            dic[mockService.Generate(formatKey, null, count, keyType, keyType)] =
+                mockService.Generate(format, null, count, valueType, valueType);
         }
 
         return JsonSerializer.Serialize(dic);
