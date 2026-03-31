@@ -44,7 +44,7 @@ public class MockService
             }
             else
             {
-                expando[field.Name] = mockService.Generate(field.Format);
+                expando[field.Name] = mockService.Generate(field.Format, field.Count, field.Type);
             }
         }
     }

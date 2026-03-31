@@ -1,8 +1,9 @@
+using System.Text.Json;
 using MockServiceApplication.FormatServices;
 
 namespace MockServiceApplication.MockServices;
 
-public class ArrayMockService : IMockCollectionService
+public class ArrayMockService : IMockService
 {
     private readonly Func<string, IMockService> _formatResolver;
 
@@ -10,16 +11,16 @@ public class ArrayMockService : IMockCollectionService
     {
         _formatResolver = formatResolver;
     }
-    
-    public string[] Generate<T>(Format format = default, int count = 0, string? valueType = null)
-    {
-        if (count == 0 || valueType is null)
-            throw new ArgumentException("Не пришёл размер или целевой тип!");
 
-        var arr = new string[count];
+    public string? Generate(Format? format, int? count, string? valueType)
+    {
+        if (count is null || valueType is null)
+            throw new ArgumentException("Не пришёл размер или тип!");
+
+        var arr = new string[(int)count];
         var mockService = _formatResolver(valueType);
         for (var i = 0; i < count; ++i)
-            arr[i] = mockService.Generate<T>(format);
-        return arr;
+            arr[i] = mockService.Generate(format, count, valueType);
+        return JsonSerializer.Serialize(arr);
     }
 }

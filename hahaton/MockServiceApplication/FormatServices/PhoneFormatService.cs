@@ -1,6 +1,6 @@
 namespace MockServiceApplication.FormatServices;
 
-public class PhoneFormatService : IFormatService<string>
+public class PhoneFormatService : IFormatService
 {
     public Random Random { get; }
 
