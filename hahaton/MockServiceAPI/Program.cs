@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<StringMockService>();
+builder.Services.AddTransient<ArrayMockService<string>>();
 
 builder.Services.AddTransient<EmailFormatService>();
 builder.Services.AddTransient<DefaultFormatService>();
@@ -22,6 +23,19 @@ builder.Services.AddTransient<Func<Format, IFormatService<string>>>(serviceProvi
     };
 });
 
+builder.Services.AddTransient<Func<string, IMockService<string>>>(serviceProvider => str =>
+{
+    return serviceProvider.GetRequiredService<StringMockService>();
+});
+
+builder.Services.AddTransient<Func<string, IMockService<Array>>>(serviceProvider => str =>
+{
+    return str switch
+    {
+        "string" => serviceProvider.GetRequiredService<ArrayMockService<string>>(),
+        _ => throw new NotImplementedException(),
+    };
+});
 
 var app = builder.Build();
 
