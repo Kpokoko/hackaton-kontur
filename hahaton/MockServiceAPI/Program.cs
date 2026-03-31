@@ -1,9 +1,25 @@
+using System.Text;
+using Application.Identity.Services;
+using Domain;
 using hahaton.Endpoints;
+using Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 using MockServiceApplication;
 using MockServiceApplication.FormatServices;
+using MockServiceApplication.Identity.JWT;
 using MockServiceApplication.MockServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Format = MockServiceApplication.FormatServices.Format;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<JwtProvider>();
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<AuthService, AuthService>();
+builder.Services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,13 +51,60 @@ builder.Services.AddTransient<Func<string, IMockService?>>(serviceProvider => ty
     };
 });
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "My API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new()
+    {
+        Description = "Введите JWT токен в формате: Bearer {ваш токен}",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new()
+    {
+        {
+            new() {
+                Reference = new() {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
 app.UseHttpsRedirection();
 
 app.MapMockEndpoints();
+app.MapAuthEndpoints();
 
 app.Run();

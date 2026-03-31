@@ -8,7 +8,8 @@ public static class MockEndpoints
 {
     public static IEndpointRouteBuilder MapMockEndpoints(this IEndpointRouteBuilder app)
     {
-        var endpoints = app.MapGroup("api/");
+        var endpoints = app.MapGroup("api/")
+            .RequireAuthorization();
 
         endpoints.MapPost("mock", FillMockObject);
         endpoints.MapPost("custom", AddCustomType);
