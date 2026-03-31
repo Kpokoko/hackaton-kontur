@@ -11,16 +11,20 @@ public class DictionaryMockService : IMockService
     {
         _formatResolver = formatResolver;
     }
-    public string? Generate(Format? format, int? count, string? valueType)
+    public string? Generate(Format? format, Format? formatKey, int? count, string? valueType, string? keyType)
     {
         if (count is null || valueType is null)
             throw new ArgumentException("Не пришёл размер или тип!");
 
         var dic = new Dictionary<string, string>();
         var mockService = _formatResolver(valueType);
-        
+
         for (var i = 0; i < count; ++i)
-            dic[mockService.Generate(format, count, valueType)] = mockService.Generate(format, count, valueType);
+        {
+            dic[mockService.Generate(formatKey, null, count, valueType, valueType)] =
+                mockService.Generate(format, null, count, keyType, keyType);
+        }
+
         return JsonSerializer.Serialize(dic);
     }
 }

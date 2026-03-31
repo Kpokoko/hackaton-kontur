@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Text.Json;
 using MockServiceApplication.DTOs;
 using MockServiceApplication.MockServices;
 
@@ -51,27 +52,32 @@ public class MockService
             {
                 if (field.Type == "array")
                 {
-                    var array = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var array = mockService.Generate(field.Format, null, field.Count, field.valueType, null);
                     if (field.valueType == "int")
                         expando[field.Name] = array.Split(",").Select(x => int.Parse(x)).ToArray();
                     else if (field.valueType == "double")
                         expando[field.Name] = array.Split(",").Select(x => double.Parse(x)).ToArray();
                     else
                         expando[field.Name] = array.Split(",");
+                } else if (field.Type == "dictionary")
+                {
+                    var dictionary = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
+
+                    expando[field.Name] = JsonSerializer.Deserialize<Dictionary<string, object>>(dictionary);
                 }
                 else if (field.Type == "double")
                 {
-                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var number = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
                     expando[field.Name] = double.Parse(number);
                 }
                 else if (field.Type == "int")
                 {
-                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    var number = mockService.Generate(field.Format, field.FormatKey, field.Count, field.valueType, field.keyType);
                     expando[field.Name] = int.Parse(number);
                 }
                 else
                 {
-                    expando[field.Name] = mockService.Generate(field.Format, field.Count, field.valueType);
+                    expando[field.Name] = mockService.Generate(field.Format, null, field.Count, field.valueType, null);
                 }
             }
         }
