@@ -31,6 +31,7 @@ builder.Services.AddTransient<StringMockService>();
 builder.Services.AddTransient<DoubleMockService>();
 builder.Services.AddTransient<IntMockService>();
 builder.Services.AddTransient<ArrayMockService>();
+builder.Services.AddTransient<DictionaryMockService>();
 
 builder.Services.AddTransient<EmailFormatService>();
 builder.Services.AddTransient<PhoneFormatService>();
@@ -59,6 +60,7 @@ builder.Services.AddTransient<Func<string, IMockService?>>(serviceProvider => ty
     {
         "string" => serviceProvider.GetRequiredService<StringMockService>(),
         "array" => serviceProvider.GetRequiredService<ArrayMockService>(),
+        "dictionary" => serviceProvider.GetRequiredService<DictionaryMockService>(),
         "double" => serviceProvider.GetRequiredService<DoubleMockService>(),
         "int" => serviceProvider.GetRequiredService<IntMockService>(),
         _ => null

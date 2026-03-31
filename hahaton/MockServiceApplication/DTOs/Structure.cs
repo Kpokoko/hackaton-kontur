@@ -7,5 +7,7 @@ public record Structure(
     string Name,
     string Type,
     [property: JsonConverter(typeof(JsonStringEnumConverter))]Format? Format, 
+    [property: JsonConverter(typeof(JsonStringEnumConverter))]Format? FormatKey, 
     int? Count, 
-    string? valueType);
+    string? valueType,
+    string? keyType);

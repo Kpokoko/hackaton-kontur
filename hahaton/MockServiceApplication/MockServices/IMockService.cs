@@ -4,5 +4,5 @@ namespace MockServiceApplication.MockServices;
 
 public interface IMockService
 {
-    public string? Generate(Format? format, int? count, string? valueType);
+    public string? Generate(Format? format, Format? formatKey, int? count, string? valueType, string? keyType);
 }

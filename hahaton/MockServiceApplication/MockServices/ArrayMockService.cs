@@ -12,7 +12,7 @@ public class ArrayMockService : IMockService
         _formatResolver = formatResolver;
     }
 
-    public string? Generate(Format? format, int? count, string? valueType)
+    public string? Generate(Format? format,  Format? formatKey, int? count, string? valueType, string? keyType)
     {
         if (count is null || valueType is null)
             throw new ArgumentException("Не пришёл размер или тип!");
@@ -20,7 +20,7 @@ public class ArrayMockService : IMockService
         var arr = new string[(int)count];
         var mockService = _formatResolver(valueType);
         for (var i = 0; i < count; ++i)
-            arr[i] = mockService.Generate(format, count, valueType);
+            arr[i] = mockService.Generate(format, format, count, valueType, null);
         Console.WriteLine(arr);
         return string.Join(",", arr);
     }
