@@ -12,6 +12,7 @@ builder.Services.AddTransient<Random>();
 builder.Services.AddTransient<MockService>();
 
 builder.Services.AddTransient<StringMockService>();
+builder.Services.AddTransient<ArrayMockService>();
 
 builder.Services.AddTransient<EmailFormatService>();
 builder.Services.AddTransient<DefaultFormatService>();
@@ -31,6 +32,7 @@ builder.Services.AddTransient<Func<string, IMockService?>>(serviceProvider => ty
     return type switch
     {
         "string" => serviceProvider.GetRequiredService<StringMockService>(),
+        "array" => serviceProvider.GetRequiredService<ArrayMockService>(),
         _ => null
     };
 });

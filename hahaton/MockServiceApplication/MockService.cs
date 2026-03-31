@@ -27,7 +27,8 @@ public class MockService
         foreach (var field in structure)
         {
             var mockService = _mockResolver(field.Type);
-
+            
+            
             if (mockService is null)
             {
                 var nestedStructure = TypeRegistry.GetTypeStructure(field.Type);
@@ -44,7 +45,11 @@ public class MockService
             }
             else
             {
-                expando[field.Name] = mockService.Generate(field.Format, field.Count, field.Type);
+                if (field.Type == "array")
+                {
+                    var array = mockService.Generate(field.Format, field.Count, field.valueType);
+                    expando[field.Name] = array.Split(",");
+                }
             }
         }
     }
