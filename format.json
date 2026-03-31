@@ -1,18 +1,21 @@
 {
-    "count" : "int",
-    "class name":
-    {
-        "name" : {
+    "type": "type",
+    "name": "",
+    "props": [
+        {
+            "name": "",
             "type": "type",
             "format": "email"
         },
-        "name": {
+        {
+            "name": "",
             "type": "array",
             "valueType": "int",
             "valueFormat": "email",
             "count": "int"
         },
-        "name": {
+        {
+            "name": "",
             "type": "dictionary",
             "keyType": "int",
             "valueType": "int",
@@ -20,14 +23,10 @@
             "keyFormat": "email",
             "valueFormat": "email"
         },
-        "class Person":
         {
-            "name": {
-                "type": "array",
-                "valueType": "int",
-                "valueFormat": "email",
-                "count": "int"
-            }
+            "type": "class",
+            "name": "p",
+            "props": []
         }
-    }
+    ]
 }
