@@ -50,6 +50,16 @@ public class MockService
                     var array = mockService.Generate(field.Format, field.Count, field.valueType);
                     expando[field.Name] = array.Split(",");
                 }
+                else if (field.Type == "double")
+                {
+                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    expando[field.Name] = double.Parse(number);
+                }
+                else if (field.Type == "int")
+                {
+                    var number = mockService.Generate(field.Format, field.Count, field.valueType);
+                    expando[field.Name] = int.Parse(number);
+                }
                 else
                 {
                     expando[field.Name] = mockService.Generate(field.Format, field.Count, field.valueType);
